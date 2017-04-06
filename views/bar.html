@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>echars图</title>
+    <script src="/js/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="/js/plugins/echarts/echarts.js"></script>
+</head>
+<body style="background: #fff;">
+<div id="main" style="width: 400px;height:400px;"></div>
+</body>
+<script>
+    draw ('main');
+    function draw (id) {
+        $.ajax({
+            url: '/getBarData',
+            type: 'GET',
+            cache: false,
+            success: function (data) {
+                var myChart = echarts.init(document.getElementById(id));
+
+                var option = {
+                    /*title: {
+                     text: 'The demo of bar '
+                     },*/
+                    tooltip: {},
+                    legend: {
+                        data:['Sales Volume']
+                    },
+                    xAxis: {
+                        data: data.xAxis
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: 'Sales Volume',
+                        type: 'bar',
+                        data: data.value
+                    }]
+                };
+
+                myChart.setOption(option);
+
+            }
+        });
+    }
+</script>
+</html>
